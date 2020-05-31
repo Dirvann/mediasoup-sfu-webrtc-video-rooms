@@ -1,0 +1,22 @@
+{
+  "name": "mediasoup-custom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/app.js",
+    "watch": "watchify public/index.js -o public/bundle.js -v"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "httpolyglot": "^0.1.2",
+    "mediasoup": "^3.5.11",
+    "mediasoup-client": "^3.6.5",
+    "protoo-client": "^4.0.4",
+    "protoo-server": "^4.0.4",
+    "socket.io": "^2.3.0"
+  }
+}
