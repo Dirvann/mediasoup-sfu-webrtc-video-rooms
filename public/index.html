@@ -43,19 +43,25 @@
 
 <body>
     <div id="login">
-        <input id="roomidInput" value="123" type="text" />
+        Room:   <input id="roomidInput" value="123" type="text" />
         <!--<button id="createRoom" onclick="createRoom(roomid.value)" label="createRoom">Create Room</button>-->
         <br />
-        <input id='nameInput' value="bob" type="text" />
+        User: <input id='nameInput' value="bob" type="text" />
         <button id='joinButton' onclick="joinRoom(nameInput.value, roomidInput.value)">Join</button>
     </div>
     <div id="control" class="hidden">
         <button id='exitButton' class='hidden' onclick="rc.exit()">Exit</button>
+        <br/>
+        audio: <select id="audioSelect">
+        </select>
+        <br/>
+        video: <select id="videoSelect">
+        </select>
         <br />
-        <button id='startAudioButton' class='hidden' onclick="rc.produce(RoomClient.mediaType.audio)">audio</button>
+        <button id='startAudioButton' class='hidden' onclick="rc.produce(RoomClient.mediaType.audio, audioSelect.value)">audio</button>
         <button id='stopAudioButton' class='hidden' onclick="rc.closeProducer(RoomClient.mediaType.audio)">close
             audio</button>
-        <button id='startVideoButton' class='hidden' onclick="rc.produce(RoomClient.mediaType.video)">video</button>
+        <button id='startVideoButton' class='hidden' onclick="rc.produce(RoomClient.mediaType.video, videoSelect.value)">video</button>
         <button id='stopVideoButton' class='hidden' onclick="rc.closeProducer(RoomClient.mediaType.video)">close
             video</button>
         <button id='startScreenButton' class='hidden' onclick="rc.produce(RoomClient.mediaType.screen)">screen</button>
@@ -67,12 +73,15 @@
 
 
 
-    <div>
+    <div id='videoMedia' class='hidden'>
+        <h2>------local------</h2>
         <div id="localMedia"></div>
         <!--<video id="localVideo" autoplay inline class="vid"></video>-->
         <!--<video id="localScreen" autoplay inline class="vid"></video>-->
+        <h2>-----remote-----</h2>
         <div id="remoteVideos" class="container">
         </div>
+
         <div id="remoteAudios"></div>
 
     </div>
