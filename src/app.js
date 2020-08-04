@@ -10,8 +10,8 @@ const Room = require('./Room')
 const Peer = require('./Peer')
 
 const options = {
-    key: fs.readFileSync('/ssl/key.pem', 'utf-8'),
-    cert: fs.readFileSync('/ssl/cert.pem', 'utf-8')
+    key: fs.readFileSync(path.join(__dirname,config.sslKey), 'utf-8'),
+    cert: fs.readFileSync(path.join(__dirname,config.sslCrt), 'utf-8')
 }
 
 const httpsServer = https.createServer(options, app)
