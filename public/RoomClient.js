@@ -247,14 +247,16 @@ class RoomClient {
     //////// MAIN FUNCTIONS /////////////
 
 
-    async produce(type) {
+    async produce(type, deviceId = null) {
         let mediaConstraints = {}
         let audio = false
         let screen = false
         switch (type) {
             case mediaType.audio:
                 mediaConstraints = {
-                    audio: true,
+                    audio: {
+                        deviceId: deviceId
+                    },
                     video: false
                 }
                 audio = true
@@ -271,6 +273,7 @@ class RoomClient {
                             min: 400,
                             ideal: 1080
                         },
+                        deviceId: deviceId
                         /*aspectRatio: {
                             ideal: 1.7777777778
                         }*/
@@ -293,6 +296,7 @@ class RoomClient {
             console.log('producer already exists for this type ' + type)
             return
         }
+        console.log('mediacontraints:',mediaConstraints)
         let stream;
         try {
             stream = screen ? await navigator.mediaDevices.getDisplayMedia() : await navigator.mediaDevices.getUserMedia(mediaConstraints)
