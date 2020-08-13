@@ -347,13 +347,7 @@ class RoomClient {
             }
 
             producer.on('trackended', () => {
-                if (!audio) {
-                    elem.srcObject.getTracks().forEach(function (track) {
-                        track.stop()
-                    })
-                    elem.parentNode.removeChild(elem)
-                }
-                this.producers.delete(producer.id)
+                this.closeProducer(type)
             })
 
             producer.on('transportclose', () => {
