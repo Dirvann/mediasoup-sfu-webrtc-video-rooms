@@ -13,8 +13,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "httpolyglot": "^0.1.2",
-    "mediasoup": "^3.5.11",
-    "mediasoup-client": "^3.6.5",
+    "mediasoup": "^3.6.16",
+    "mediasoup-client": "^3.6.12",
     "protoo-client": "^4.0.4",
     "protoo-server": "^4.0.4",
     "socket.io": "^2.3.0"
