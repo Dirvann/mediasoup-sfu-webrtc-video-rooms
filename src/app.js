@@ -93,7 +93,7 @@ io.on('connection', socket => {
         if (roomList.has(room_id)) {
             callback('already exists')
         } else {
-            console.log('created new room', room_id)
+            console.log('---created room--- ', room_id)
             let worker = await getMediasoupWorker()
             roomList.set(room_id, new Room(room_id, worker, io))
             callback(room_id)
@@ -105,9 +105,7 @@ io.on('connection', socket => {
         name
     }, cb) => {
 
-        console.log('new user joining \"' + room_id + '\": ' + name)
-        console.log(roomList.has(room_id))
-        console.log(Array.from(roomList.values))
+        console.log('---user joined--- \"' + room_id + '\": ' + name)
         if (!roomList.has(room_id)) {
             return cb({
                 error: 'room does not exist'
@@ -120,6 +118,7 @@ io.on('connection', socket => {
     })
 
     socket.on('getProducers', () => {
+        console.log(`---get producers--- name:${roomList.get(socket.room_id).getPeers().get(socket.id).name}`)
         // send all the current producer to newly joined member
         if (!roomList.has(socket.room_id)) return
         let producerList = roomList.get(socket.room_id).getProducerListForPeer(socket.id)
@@ -128,6 +127,7 @@ io.on('connection', socket => {
     })
 
     socket.on('getRouterRtpCapabilities', (_, callback) => {
+        console.log(`---get RouterRtpCapabilities--- name: ${roomList.get(socket.room_id).getPeers().get(socket.id).name}`)
         try {
             callback(roomList.get(socket.room_id).getRtpCapabilities());
         } catch (e) {
@@ -139,7 +139,7 @@ io.on('connection', socket => {
     });
 
     socket.on('createWebRtcTransport', async (_, callback) => {
-
+        console.log(`---create webrtc transport--- name: ${roomList.get(socket.room_id).getPeers().get(socket.id).name}`)
         try {
             const {
                 params
@@ -158,7 +158,7 @@ io.on('connection', socket => {
         transport_id,
         dtlsParameters
     }, callback) => {
-
+        console.log(`---connect transport--- name: ${roomList.get(socket.room_id).getPeers().get(socket.id).name}`)
         if (!roomList.has(socket.room_id)) return
         await roomList.get(socket.room_id).connectPeerTransport(socket.id, transport_id, dtlsParameters)
         
@@ -170,12 +170,13 @@ io.on('connection', socket => {
         rtpParameters,
         producerTransportId
     }, callback) => {
-
+        
         if(!roomList.has(socket.room_id)) {
             return callback({error: 'not is a room'})
         }
 
         let producer_id = await roomList.get(socket.room_id).produce(socket.id, producerTransportId, rtpParameters, kind)
+        console.log(`---produce--- type: ${kind} name: ${roomList.get(socket.room_id).getPeers().get(socket.id).name} id: ${producer_id}`)
         callback({
             producer_id
         })
@@ -186,10 +187,10 @@ io.on('connection', socket => {
         producerId,
         rtpCapabilities
     }, callback) => {
-        console.log(consumerTransportId)
         //TODO null handling
         let params = await roomList.get(socket.room_id).consume(socket.id, consumerTransportId, producerId, rtpCapabilities)
-
+        
+        console.log(`---consuming--- name: ${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name} prod_id:${producerId} consumer_id:${params.id}`)
         callback(params)
     })
 
@@ -204,6 +205,7 @@ io.on('connection', socket => {
     })
 
     socket.on('disconnect', () => {
+        console.log(`---disconnect--- name: ${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name}`)
         if (!socket.room_id) return
         roomList.get(socket.room_id).removePeer(socket.id)
     })
@@ -211,12 +213,12 @@ io.on('connection', socket => {
     socket.on('producerClosed', ({
         producer_id
     }) => {
-        console.log(producer_id)
-        console.log('closing producer of ' + roomList.get(socket.room_id).peers.get(socket.id).name)
+        console.log(`---producer close--- name: ${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name}`)
         roomList.get(socket.room_id).closeProducer(socket.id, producer_id)
     })
 
     socket.on('exitRoom', async (_, callback) => {
+        console.log(`---exit room--- name: ${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name}`)
         if (!roomList.has(socket.room_id)) {
             callback({
                 error: 'not currently in a room'
@@ -235,14 +237,6 @@ io.on('connection', socket => {
         callback('successfully exited room')
     })
 })
-
-
-
-
-function reload() {
-    console.log('reloading')
-    io.emit('reload')
-}
 
 function room() {
     return Object.values(roomList).map(r => {

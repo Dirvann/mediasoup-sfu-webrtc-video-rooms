@@ -8,9 +8,6 @@ let producer = null;
 
 nameInput.value = 'bob' + Math.round(Math.random() * 1000)
 
-socket.on('reload', () => {
-  location = location
-})
 socket.request = function request(type, data = {}) {
   return new Promise((resolve, reject) => {
     socket.emit(type, data, (data) => {

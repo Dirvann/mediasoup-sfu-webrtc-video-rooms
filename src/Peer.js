@@ -28,12 +28,12 @@ module.exports = class Peer {
 
         this.producers.set(producer.id, producer)
 
-        producer.on('transportclose', () => {
-            console.log('transport closed producer')
+        producer.on('transportclose', function() {
+            console.log(`---producer transport close--- name: ${this.name} consumer_id: ${producer.id}`)
             producer.close()
             this.producers.delete(producer.id)
             
-        })
+        }.bind(this))
 
         return producer
     }
@@ -62,10 +62,10 @@ module.exports = class Peer {
 
         this.consumers.set(consumer.id, consumer)
 
-        consumer.on('transportclose', () => {
-            console.log('transport close from consumer')
+        consumer.on('transportclose', function() {
+            console.log(`---consumer transport close--- name: ${this.name} consumer_id: ${consumer.id}`)
             this.consumers.delete(consumer.id)
-        })
+        }.bind(this))
 
         
 
