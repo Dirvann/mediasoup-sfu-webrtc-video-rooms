@@ -10,6 +10,7 @@ Example website for multi-party video/audio/screen conferencing using mediasoup.
 # Deployment
 
 - in `config.js` replace the `announcedIP` with your public ip address of the server and modify the port you want to serve it in.
+- add firewall rules of the port of the webpage (default 3016) and the rtc connections (default udp 10000-10100) for the machine.
 
 
 notes : Best to run the project on a linux system as the mediasoup installation could have issues by installing on windows. If you have a windows system consider installing WSL to be able to run it. 
