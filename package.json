@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js",
+    "start": "node src/app.js",
+    "mon": "nodemon src/app.js",
     "watch": "watchify public/index.js -o public/bundle.js -v"
   },
   "author": "",
