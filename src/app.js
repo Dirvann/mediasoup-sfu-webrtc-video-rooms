@@ -20,7 +20,7 @@ const io = require('socket.io')(httpsServer)
 app.use(express.static(path.join(__dirname, '..', 'public')))
 
 httpsServer.listen(config.listenPort, () => {
-    console.log('listening https ' + config.listenPort)
+    console.log('listening https://' + config.listenIp + ':' + config.listenPort);
 })
 
 

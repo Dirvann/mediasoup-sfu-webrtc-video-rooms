@@ -24,13 +24,22 @@ let rc = null
 
 function joinRoom(name, room_id) {
   if (rc && rc.isOpen()) {
-    console.log('already connected to a room')
+      console.log('already connected to a room');
   } else {
-    rc = new RoomClient(localMedia, remoteVideos, remoteAudios, window.mediasoupClient, socket, room_id, name, roomOpen)
+      rc = new RoomClient(
+          localMedia,
+          remoteVideos,
+          remoteAudios,
+          window.mediasoupClient,
+          socket,
+          room_id,
+          name,
+          roomOpen,
+      );
 
-    addListeners()
+      addListeners();
+      initEnumerateDevices();
   }
-
 }
 
 function roomOpen() {
@@ -92,20 +101,43 @@ function addListeners() {
   })
 }
 
-// Load mediaDevice options
-navigator.mediaDevices.enumerateDevices().then(devices =>
-  devices.forEach(device => {
-    let el = null
-    if ('audioinput' === device.kind) {
-      el = audioSelect
-    } else if ('videoinput' === device.kind) {
-      el = videoSelect
-    }
-    if(!el) return
+function initEnumerateDevices() {
+  // Many browsers, without the consent of getUserMedia, cannot enumerate the devices. 
 
-    let option = document.createElement('option')
-    option.value = device.deviceId
-    option.innerText = device.label
-    el.appendChild(option)
+  const constraints = {
+      audio: true,
+      video: true,
+  };
+
+  navigator.mediaDevices
+  .getUserMedia(constraints)
+  .then((stream) => {
+      enumerateDevices();
+      stream.getTracks().forEach(function(track) {
+          track.stop();
+      });
   })
-)
+  .catch((err) => {
+      console.error('Access denied for audio/video: ', err);
+  });
+}
+
+function enumerateDevices() {
+  // Load mediaDevice options
+  navigator.mediaDevices.enumerateDevices().then((devices) =>
+      devices.forEach((device) => {
+          let el = null;
+          if ('audioinput' === device.kind) {
+              el = audioSelect;
+          } else if ('videoinput' === device.kind) {
+              el = videoSelect;
+          }
+          if (!el) return;
+
+          let option = document.createElement('option');
+          option.value = device.deviceId;
+          option.innerText = device.label;
+          el.appendChild(option);
+      }),
+  );
+}
