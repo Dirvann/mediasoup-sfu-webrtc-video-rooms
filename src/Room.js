@@ -21,7 +21,7 @@ module.exports = class Room {
         this.peers.set(peer.id, peer);
     }
 
-    getProducerListForPeer(socket_id) {
+    getProducerListForPeer() {
         let producerList = [];
         this.peers.forEach((peer) => {
             peer.producers.forEach((producer) => {
@@ -66,6 +66,7 @@ module.exports = class Room {
         transport.on('close', () => {
             console.log('Transport close', { name: this.peers.get(socket_id).name });
         });
+
         console.log('Adding transport', { transportId: transport.id } );
         this.peers.get(socket_id).addTransport(transport);
         return {
@@ -80,6 +81,7 @@ module.exports = class Room {
 
     async connectPeerTransport(socket_id, transport_id, dtlsParameters) {
         if (!this.peers.has(socket_id)) return;
+
         await this.peers.get(socket_id).connectTransport(transport_id, dtlsParameters);
     }
 

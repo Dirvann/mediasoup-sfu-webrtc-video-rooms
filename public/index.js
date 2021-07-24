@@ -24,6 +24,8 @@ function joinRoom(name, room_id) {
     if (rc && rc.isOpen()) {
         console.log('Already connected to a room');
     } else {
+        initEnumerateDevices();
+
         rc = new RoomClient(
             localMedia,
             remoteVideos,
@@ -36,7 +38,6 @@ function joinRoom(name, room_id) {
         );
 
         addListeners();
-        initEnumerateDevices();
     }
 }
 

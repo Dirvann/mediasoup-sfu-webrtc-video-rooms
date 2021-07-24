@@ -38,6 +38,7 @@ class RoomClient {
 
         this._isOpen = false;
         this.eventListeners = new Map();
+
         Object.keys(_EVENTS).forEach(
             function (evt) {
                 this.eventListeners.set(evt, []);
@@ -111,6 +112,7 @@ class RoomClient {
                 forceTcp: false,
                 rtpCapabilities: device.rtpCapabilities,
             });
+
             if (data.error) {
                 console.error(data.error);
                 return;
@@ -176,6 +178,7 @@ class RoomClient {
             const data = await this.socket.request('createWebRtcTransport', {
                 forceTcp: false,
             });
+
             if (data.error) {
                 console.error(data.error);
                 return;
@@ -294,7 +297,6 @@ class RoomClient {
                 break;
             default:
                 return;
-                break;
         }
         if (!this.device.canProduce('video') && !audio) {
             console.error('Cannot produce video');
@@ -396,7 +398,6 @@ class RoomClient {
                     break;
                 default:
                     return;
-                    break;
             }
         } catch (err) {
             console.log('Produce error:',err);
@@ -434,6 +435,7 @@ class RoomClient {
                         this.removeConsumer(consumer.id);
                     }.bind(this),
                 );
+
                 consumer.on(
                     'transportclose',
                     function () {
@@ -461,8 +463,10 @@ class RoomClient {
             rtpParameters,
             codecOptions,
         });
+
         const stream = new MediaStream();
         stream.addTrack(consumer.track);
+
         return {
             consumer,
             stream,
@@ -475,11 +479,14 @@ class RoomClient {
             console.log('There is no producer for this type ' + type);
             return;
         }
+
         let producer_id = this.producerLabel.get(type);
         console.log('Close producer', producer_id);
+
         this.socket.emit('producerClosed', {
             producer_id,
         });
+
         this.producers.get(producer_id).close();
         this.producers.delete(producer_id);
         this.producerLabel.delete(type);
@@ -504,7 +511,6 @@ class RoomClient {
                 break;
             default:
                 return;
-                break;
         }
     }
 
@@ -513,6 +519,7 @@ class RoomClient {
             console.log('There is no producer for this type ' + type);
             return;
         }
+
         let producer_id = this.producerLabel.get(type);
         this.producers.get(producer_id).pause();
     }
@@ -522,6 +529,7 @@ class RoomClient {
             console.log('There is no producer for this type ' + type);
             return;
         }
+
         let producer_id = this.producerLabel.get(type);
         this.producers.get(producer_id).resume();
     }

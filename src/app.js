@@ -100,6 +100,7 @@ io.on('connection', (socket) => {
                 error: 'Room does not exist',
             });
         }
+
         roomList.get(room_id).addPeer(new Peer(socket.id, name));
         socket.room_id = room_id;
 
@@ -108,9 +109,10 @@ io.on('connection', (socket) => {
 
     socket.on('getProducers', () => {
         console.log('Get producers', { name: `${roomList.get(socket.room_id).getPeers().get(socket.id).name}` });
+
         // send all the current producer to newly joined member
         if (!roomList.has(socket.room_id)) return;
-        let producerList = roomList.get(socket.room_id).getProducerListForPeer(socket.id);
+        let producerList = roomList.get(socket.room_id).getProducerListForPeer();
 
         socket.emit('newProducers', producerList);
     });
@@ -119,6 +121,7 @@ io.on('connection', (socket) => {
         console.log('Get RouterRtpCapabilities', {
             name: `${roomList.get(socket.room_id).getPeers().get(socket.id).name}`,
         });
+
         try {
             callback(roomList.get(socket.room_id).getRtpCapabilities());
         } catch (e) {
@@ -132,6 +135,7 @@ io.on('connection', (socket) => {
         console.log('Create webrtc transport', {
             name: `${roomList.get(socket.room_id).getPeers().get(socket.id).name}`,
         });
+
         try {
             const { params } = await roomList.get(socket.room_id).createWebRtcTransport(socket.id);
 
@@ -146,6 +150,7 @@ io.on('connection', (socket) => {
 
     socket.on('connectTransport', async ({ transport_id, dtlsParameters }, callback) => {
         console.log('Connect transport', { name: `${roomList.get(socket.room_id).getPeers().get(socket.id).name}` });
+
         if (!roomList.has(socket.room_id)) return;
         await roomList.get(socket.room_id).connectPeerTransport(socket.id, transport_id, dtlsParameters);
 
@@ -236,6 +241,7 @@ io.on('connection', (socket) => {
     });
 });
 
+// TODO remove - never used?
 function room() {
     return Object.values(roomList).map((r) => {
         return {
