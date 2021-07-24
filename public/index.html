@@ -1,93 +1,104 @@
 <html>
+    <head>
+        <script src="socket.io/socket.io.js"></script>
+        <script src="modules/mediasoupclient.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.2.8/EventEmitter.min.js"></script>
+        <script src="RoomClient.js"></script>
+        <style>
+            .containers {
+                display: grid;
+                grid-gap: 5px;
+                grid-template-columns: repeat(auto-fit, 1fr);
+                grid-template-rows: repeat(auto-fit, 300px);
+            }
 
-<head>
-    <script src="socket.io/socket.io.js"></script>
-    <script src="modules/mediasoupclient.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.2.8/EventEmitter.min.js"></script>
-    <script src="RoomClient.js"></script>
-    <style>
-        .containers {
-            display: grid;
-            grid-gap: 5px;
-            grid-template-columns: repeat(auto-fit, 1fr);
-            grid-template-rows: repeat(auto-fit, 300px);
-        }
+            .container {
+                display: flex;
+            }
 
-        .container {
-            display: flex;
-        }
+            .vid {
+                flex: 0 1 auto;
+                height: 400px;
+            }
 
-        .vid {
-            flex: 0 1 auto;
-            height: 400px;
-        }
+            .settings {
+                background-color: #4caf50;
+                border: none;
+                color: white;
+                padding: 5px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 14px;
+                margin: 2px 2px;
+                cursor: pointer;
+            }
 
-        .settings {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 2px 2px;
-            cursor: pointer;
-        }
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
 
-        .hidden {
-            display: none
-        }
-    </style>
-</head>
-
-<body>
-    <div id="login">
-        Room:   <input id="roomidInput" value="123" type="text" />
-        <!--<button id="createRoom" onclick="createRoom(roomid.value)" label="createRoom">Create Room</button>-->
-        <br />
-        User: <input id='nameInput' value="bob" type="text" />
-        <button id='joinButton' onclick="joinRoom(nameInput.value, roomidInput.value)">Join</button>
-    </div>
-    <div id="control" class="hidden">
-        <button id='exitButton' class='hidden' onclick="rc.exit()">Exit</button>
-        <br/>
-        audio: <select id="audioSelect">
-        </select>
-        <br/>
-        video: <select id="videoSelect">
-        </select>
-        <br />
-        <button id='startAudioButton' class='hidden' onclick="rc.produce(RoomClient.mediaType.audio, audioSelect.value)">audio</button>
-        <button id='stopAudioButton' class='hidden' onclick="rc.closeProducer(RoomClient.mediaType.audio)">close
-            audio</button>
-        <button id='startVideoButton' class='hidden' onclick="rc.produce(RoomClient.mediaType.video, videoSelect.value)">video</button>
-        <button id='stopVideoButton' class='hidden' onclick="rc.closeProducer(RoomClient.mediaType.video)">close
-            video</button>
-        <button id='startScreenButton' class='hidden' onclick="rc.produce(RoomClient.mediaType.screen)">screen</button>
-        <button id='stopScreenButton' class='hidden' onclick="rc.closeProducer(RoomClient.mediaType.screen)">close
-            screen</button>
-        <br />
-    </div>
-
-
-
-
-    <div id='videoMedia' class='hidden'>
-        <h2>------local------</h2>
-        <div id="localMedia"></div>
-        <!--<video id="localVideo" autoplay inline class="vid"></video>-->
-        <!--<video id="localScreen" autoplay inline class="vid"></video>-->
-        <h2>-----remote-----</h2>
-        <div id="remoteVideos" class="container">
+    <body>
+        <div id="login">
+            Room: <input id="roomidInput" value="123" type="text" />
+            <!--<button id="createRoom" onclick="createRoom(roomid.value)" label="createRoom">Create Room</button>-->
+            <br />
+            User: <input id="nameInput" value="user" type="text" />
+            <button id="joinButton" onclick="joinRoom(nameInput.value, roomidInput.value)">Join</button>
         </div>
 
-        <div id="remoteAudios"></div>
+        <div id="control" class="hidden">
+            <button id="exitButton" class="hidden" onclick="rc.exit()">Exit</button>
+            <br />
+            audio:
+            <select id="audioSelect"></select>
+            <br />
+            video:
+            <select id="videoSelect"></select>
+            <br />
+            <button
+                id="startAudioButton"
+                class="hidden"
+                onclick="rc.produce(RoomClient.mediaType.audio, audioSelect.value)"
+            >
+                open audio
+            </button>
+            <button id="stopAudioButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.audio)">
+                close audio
+            </button>
+            <button
+                id="startVideoButton"
+                class="hidden"
+                onclick="rc.produce(RoomClient.mediaType.video, videoSelect.value)"
+            >
+                open video
+            </button>
+            <button id="stopVideoButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.video)">
+                close video
+            </button>
+            <button id="startScreenButton" class="hidden" onclick="rc.produce(RoomClient.mediaType.screen)">
+                open screen
+            </button>
+            <button id="stopScreenButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.screen)">
+                close screen
+            </button>
+            <br />
+        </div>
 
-    </div>
-</body>
-<footer>
-    <script src="index.js"></script>
-</footer>
+        <div id="videoMedia" class="hidden">
+            <h2>Local</h2>
+            <div id="localMedia"></div>
+            <!--<video id="localVideo" autoplay inline class="vid"></video>-->
+            <!--<video id="localScreen" autoplay inline class="vid"></video>-->
+            <h2>Remote</h2>
+            <div id="remoteVideos" class="container"></div>
+            <div id="remoteAudios"></div>
+        </div>
+    </body>
 
+    <footer>
+        <script src="index.js"></script>
+    </footer>
 </html>

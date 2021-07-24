@@ -1,23 +1,26 @@
 {
-  "name": "mediasoup-custom",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.js",
-    "mon": "nodemon src/app.js",
-    "watch": "watchify public/index.js -o public/bundle.js -v"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1",
-    "httpolyglot": "^0.1.2",
-    "mediasoup": "^3.6.16",
-    "mediasoup-client": "^3.6.12",
-    "protoo-client": "^4.0.4",
-    "protoo-server": "^4.0.4",
-    "socket.io": "^2.3.0"
-  }
+    "name": "mediasoup-custom",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node src/app.js",
+        "mon": "nodemon src/app.js",
+        "watch": "watchify public/index.js -o public/bundle.js -v"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1",
+        "httpolyglot": "^0.1.2",
+        "mediasoup": "^3.7.19",
+        "mediasoup-client": "^3.6.36",
+        "protoo-client": "^4.0.6",
+        "protoo-server": "^4.0.6",
+        "socket.io": "^4.1.3"
+    },
+    "devDependencies": {
+        "prettier": "2.3.2"
+    }
 }
