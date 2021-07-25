@@ -57,7 +57,7 @@ module.exports = class Room {
             'dtlsstatechange',
             function (dtlsState) {
                 if (dtlsState === 'closed') {
-                    console.log('Transport close', { name: this.peers.get(socket_id).name } );
+                    console.log('Transport close', { name: this.peers.get(socket_id).name });
                     transport.close();
                 }
             }.bind(this),
@@ -67,7 +67,7 @@ module.exports = class Room {
             console.log('Transport close', { name: this.peers.get(socket_id).name });
         });
 
-        console.log('Adding transport', { transportId: transport.id } );
+        console.log('Adding transport', { transportId: transport.id });
         this.peers.get(socket_id).addTransport(transport);
         return {
             params: {
@@ -120,10 +120,9 @@ module.exports = class Room {
         consumer.on(
             'producerclose',
             function () {
-                console.log(
-                    'Consumer closed due to producerclose event',  { 
-                        name: `${this.peers.get(socket_id).name}`, 
-                        consumer_id: `${consumer.id}`,
+                console.log('Consumer closed due to producerclose event', {
+                    name: `${this.peers.get(socket_id).name}`,
+                    consumer_id: `${consumer.id}`,
                 });
                 this.peers.get(socket_id).removeConsumer(consumer.id);
                 // tell client consumer is dead

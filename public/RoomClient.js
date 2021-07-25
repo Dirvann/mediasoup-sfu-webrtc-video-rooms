@@ -400,7 +400,7 @@ class RoomClient {
                     return;
             }
         } catch (err) {
-            console.log('Produce error:',err);
+            console.log('Produce error:', err);
         }
     }
 

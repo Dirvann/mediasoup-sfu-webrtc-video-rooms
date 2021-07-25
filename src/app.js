@@ -90,9 +90,9 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join', ({ room_id, name }, cb) => {
-        console.log('User joined', { 
-            room_id: room_id, 
-            name: name 
+        console.log('User joined', {
+            room_id: room_id,
+            name: name,
         });
 
         if (!roomList.has(room_id)) {
@@ -185,7 +185,7 @@ io.on('connection', (socket) => {
 
         console.log('Consuming', {
             name: `${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name}`,
-            prod_id: `${producerId}`,
+            producer_id: `${producerId}`,
             consumer_id: `${params.id}`,
         });
 
@@ -211,16 +211,16 @@ io.on('connection', (socket) => {
     });
 
     socket.on('producerClosed', ({ producer_id }) => {
-        console.log(
-            'Producer close', { name: `${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name}`,
+        console.log('Producer close', {
+            name: `${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name}`,
         });
 
         roomList.get(socket.room_id).closeProducer(socket.id, producer_id);
     });
 
     socket.on('exitRoom', async (_, callback) => {
-        console.log(
-            'Exit room', { name: `${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name}`,
+        console.log('Exit room', {
+            name: `${roomList.get(socket.room_id) && roomList.get(socket.room_id).getPeers().get(socket.id).name}`,
         });
 
         if (!roomList.has(socket.room_id)) {
