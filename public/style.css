@@ -1,0 +1,25 @@
+* {
+    font-family: Verdana;
+}
+
+.containers {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 5px;
+}
+
+.container {
+    display: flex;
+}
+
+.vid {
+    flex: 0 1 auto;
+    height: 360px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.hidden {
+    display: none;
+}

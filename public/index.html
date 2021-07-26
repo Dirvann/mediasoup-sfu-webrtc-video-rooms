@@ -1,100 +1,96 @@
 <html>
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="/style.css" />
+
         <script src="socket.io/socket.io.js"></script>
         <script src="modules/mediasoupclient.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.2.8/EventEmitter.min.js"></script>
+        <script src="https://kit.fontawesome.com/d2f1016e6f.js" crossorigin="anonymous"></script>
         <script src="RoomClient.js"></script>
-        <style>
-            .containers {
-                display: grid;
-                grid-gap: 5px;
-                grid-template-columns: repeat(auto-fit, 1fr);
-                grid-template-rows: repeat(auto-fit, 300px);
-            }
 
-            .container {
-                display: flex;
-            }
-
-            .vid {
-                flex: 0 1 auto;
-                height: 400px;
-            }
-
-            .settings {
-                background-color: #4caf50;
-                border: none;
-                color: white;
-                padding: 5px 10px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 14px;
-                margin: 2px 2px;
-                cursor: pointer;
-            }
-
-            .hidden {
-                display: none;
-            }
-        </style>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"
+        ></script>
     </head>
-
     <body>
-        <div id="login">
-            Room: <input id="roomidInput" value="123" type="text" />
-            <!--<button id="createRoom" onclick="createRoom(roomid.value)" label="createRoom">Create Room</button>-->
-            <br />
-            User: <input id="nameInput" value="user" type="text" />
-            <button id="joinButton" onclick="joinRoom(nameInput.value, roomidInput.value)">Join</button>
+        <div class="container">
+            <div id="login">
+                <br />
+                <i class="fas fa-server"> Room: </i><input id="roomidInput" value="123" type="text" />
+                <!--<button id="createRoom" onclick="createRoom(roomid.value)" label="createRoom">Create Room</button>-->
+                <i class="fas fa-user"> User: </i><input id="nameInput" value="user" type="text" />
+                <button id="joinButton" onclick="joinRoom(nameInput.value, roomidInput.value)">
+                    <i class="fas fa-sign-in-alt"></i> Join
+                </button>
+            </div>
         </div>
 
-        <div id="control" class="hidden">
-            <button id="exitButton" class="hidden" onclick="rc.exit()">Exit</button>
-            <br />
-            audio:
-            <select id="audioSelect"></select>
-            <br />
-            video:
-            <select id="videoSelect"></select>
-            <br />
-            <button
-                id="startAudioButton"
-                class="hidden"
-                onclick="rc.produce(RoomClient.mediaType.audio, audioSelect.value)"
-            >
-                open audio
-            </button>
-            <button id="stopAudioButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.audio)">
-                close audio
-            </button>
-            <button
-                id="startVideoButton"
-                class="hidden"
-                onclick="rc.produce(RoomClient.mediaType.video, videoSelect.value)"
-            >
-                open video
-            </button>
-            <button id="stopVideoButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.video)">
-                close video
-            </button>
-            <button id="startScreenButton" class="hidden" onclick="rc.produce(RoomClient.mediaType.screen)">
-                open screen
-            </button>
-            <button id="stopScreenButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.screen)">
-                close screen
-            </button>
-            <br />
+        <div class="container">
+            <div id="control" class="hidden">
+                <br />
+                <button id="exitButton" class="hidden" onclick="rc.exit()">
+                    <i class="fas fa-arrow-left"></i> Exit
+                </button>
+                <br /><br />
+                <i class="fas fa-microphone"></i> Audio:
+                <select id="audioSelect" class="form-select" style="width: auto"></select>
+                <br />
+                <i class="fas fa-video"></i> Video:
+                <select id="videoSelect" class="form-select" style="width: auto"></select>
+                <br />
+                <button
+                    id="startAudioButton"
+                    class="hidden"
+                    onclick="rc.produce(RoomClient.mediaType.audio, audioSelect.value)"
+                >
+                    <i class="fas fa-volume-up"></i> Open audio
+                </button>
+                <button id="stopAudioButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.audio)">
+                    <i class="fas fa-volume-up"></i> Close audio
+                </button>
+                <button
+                    id="startVideoButton"
+                    class="hidden"
+                    onclick="rc.produce(RoomClient.mediaType.video, videoSelect.value)"
+                >
+                    <i class="fas fa-camera"></i> Open video
+                </button>
+                <button id="stopVideoButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.video)">
+                    <i class="fas fa-camera"></i> Close video
+                </button>
+                <button id="startScreenButton" class="hidden" onclick="rc.produce(RoomClient.mediaType.screen)">
+                    <i class="fas fa-desktop"></i> Open screen
+                </button>
+                <button id="stopScreenButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.screen)">
+                    <i class="fas fa-desktop"></i> Close screen
+                </button>
+                <br />
+                <br />
+            </div>
         </div>
 
-        <div id="videoMedia" class="hidden">
-            <h2>Local</h2>
-            <div id="localMedia"></div>
-            <!--<video id="localVideo" autoplay inline class="vid"></video>-->
-            <!--<video id="localScreen" autoplay inline class="vid"></video>-->
-            <h2>Remote</h2>
-            <div id="remoteVideos" class="container"></div>
-            <div id="remoteAudios"></div>
+        <div class="container">
+            <div id="videoMedia" class="hidden">
+                <h2>Local</h2>
+                <div id="localMedia"></div>
+                <!--<video id="localVideo" autoplay inline class="vid"></video>-->
+                <!--<video id="localScreen" autoplay inline class="vid"></video>-->
+                <br />
+                <h2>Remote</h2>
+                <div id="remoteVideos" class="containers"></div>
+                <div id="remoteAudios"></div>
+            </div>
         </div>
     </body>
 
