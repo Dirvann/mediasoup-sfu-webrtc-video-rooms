@@ -97,8 +97,11 @@ function addListeners() {
     });
 }
 
+let isEnumerateDevices = false;
+
 function initEnumerateDevices() {
     // Many browsers, without the consent of getUserMedia, cannot enumerate the devices.
+    if (isEnumerateDevices) return;
 
     const constraints = {
         audio: true,
@@ -134,6 +137,7 @@ function enumerateDevices() {
             option.value = device.deviceId;
             option.innerText = device.label;
             el.appendChild(option);
+            isEnumerateDevices = true;
         }),
     );
 }
