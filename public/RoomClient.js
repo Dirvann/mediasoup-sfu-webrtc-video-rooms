@@ -405,7 +405,7 @@ class RoomClient {
     }
 
     async consume(producer_id) {
-        //let info = await roomInfo()
+        //let info = await this.roomInfo()
 
         this.getConsumeStream(producer_id).then(
             function ({ consumer, stream, kind }) {
@@ -574,7 +574,7 @@ class RoomClient {
     ///////  HELPERS //////////
 
     async roomInfo() {
-        let info = await socket.request('getMyRoomInfo');
+        let info = await this.socket.request('getMyRoomInfo');
         return info;
     }
 
