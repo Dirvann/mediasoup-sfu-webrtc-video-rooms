@@ -601,4 +601,16 @@ class RoomClient {
     static get EVENTS() {
         return _EVENTS;
     }
+
+    /////// UTILITY ////////
+
+    copyURL() {
+        let tmpInput = document.createElement('input');
+        document.body.appendChild(tmpInput);
+        tmpInput.value = window.location.href;
+        tmpInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tmpInput);
+        console.log('URL copied to clipboard 👍');
+    }
 }

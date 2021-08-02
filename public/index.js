@@ -50,6 +50,7 @@ function roomOpen() {
     reveal(startScreenButton);
     hide(stopScreenButton);
     reveal(exitButton);
+    reveal(copyButton);
     control.className = '';
     reveal(videoMedia);
 }
