@@ -28,6 +28,8 @@ class RoomClient {
         this.device = null;
         this.room_id = room_id;
 
+        this.isVideoOnFullScreen = false;
+
         this.consumers = new Map();
         this.producers = new Map();
 
@@ -356,6 +358,7 @@ class RoomClient {
                 elem.autoplay = true;
                 elem.className = 'vid';
                 this.localMediaEl.appendChild(elem);
+                this.handleFS(elem.id);
             }
 
             producer.on('trackended', () => {
@@ -420,6 +423,7 @@ class RoomClient {
                     elem.autoplay = true;
                     elem.className = 'vid';
                     this.remoteVideoEl.appendChild(elem);
+                    this.handleFS(elem.id);
                 } else {
                     elem = document.createElement('audio');
                     elem.srcObject = stream;
@@ -612,5 +616,53 @@ class RoomClient {
         document.execCommand('copy');
         document.body.removeChild(tmpInput);
         console.log('URL copied to clipboard 👍');
+    }
+
+    /**
+     * Click on video to go on full screen, click again to exit or press ESC
+     * @param {string} id video id
+     */
+    handleFS(id) {
+        let videoPlayer = document.getElementById(id);
+        videoPlayer.addEventListener('fullscreenchange', (e) => {
+            if (videoPlayer.controls) return;
+            let fullscreenElement = document.fullscreenElement;
+            if (!fullscreenElement) {
+                videoPlayer.style.pointerEvents = 'auto';
+                this.isVideoOnFullScreen = false;
+            }
+        });
+        videoPlayer.addEventListener('webkitfullscreenchange', (e) => {
+            if (videoPlayer.controls) return;
+            let webkitIsFullScreen = document.webkitIsFullScreen;
+            if (!webkitIsFullScreen) {
+                videoPlayer.style.pointerEvents = 'auto';
+                this.isVideoOnFullScreen = false;
+            }
+        });
+        videoPlayer.addEventListener('click', (e) => {
+            if (videoPlayer.controls) return;
+            if (!this.isVideoOnFullScreen) {
+                if (videoPlayer.requestFullscreen) {
+                    videoPlayer.requestFullscreen();
+                } else if (videoPlayer.webkitRequestFullscreen) {
+                    videoPlayer.webkitRequestFullscreen();
+                } else if (videoPlayer.msRequestFullscreen) {
+                    videoPlayer.msRequestFullscreen();
+                }
+                this.isVideoOnFullScreen = true;
+                videoPlayer.style.pointerEvents = 'none';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                this.isVideoOnFullScreen = false;
+                videoPlayer.style.pointerEvents = 'auto';
+            }
+        });
     }
 }
