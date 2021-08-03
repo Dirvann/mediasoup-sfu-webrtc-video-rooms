@@ -95,6 +95,7 @@ function addListeners() {
         hide(control);
         reveal(login);
         hide(videoMedia);
+        hide(copyButton);
     });
 }
 
