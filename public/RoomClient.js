@@ -33,6 +33,8 @@ class RoomClient {
         this.consumers = new Map();
         this.producers = new Map();
 
+        console.log('Mediasoup client', mediasoupClient);
+
         /**
          * map that contains a mediatype as key and producer_id as value
          */
@@ -65,7 +67,7 @@ class RoomClient {
                 room_id,
             })
             .catch((err) => {
-                console.log('createRoom error:', err);
+                console.log('Create room error:', err);
             });
     }
 
@@ -77,7 +79,7 @@ class RoomClient {
             })
             .then(
                 async function (e) {
-                    console.log(e);
+                    console.log('Joined to room', e);
                     const data = await this.socket.request('getRouterRtpCapabilities');
                     let device = await this.loadDevice(data);
                     this.device = device;
@@ -606,7 +608,7 @@ class RoomClient {
         return _EVENTS;
     }
 
-    /////// UTILITY ////////
+    //////// UTILITY ////////
 
     copyURL() {
         let tmpInput = document.createElement('input');
