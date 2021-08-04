@@ -29,6 +29,7 @@ class RoomClient {
         this.room_id = room_id;
 
         this.isVideoOnFullScreen = false;
+        this.isDevicesVisible = false;
 
         this.consumers = new Map();
         this.producers = new Map();
@@ -620,10 +621,16 @@ class RoomClient {
         console.log('URL copied to clipboard 👍');
     }
 
-    /**
-     * Click on video to go on full screen, click again to exit or press ESC
-     * @param {string} id video id
-     */
+    showDevices() {
+        if (!this.isDevicesVisible) {
+            reveal(devicesList);
+            this.isDevicesVisible = true;
+        } else {
+            hide(devicesList);
+            this.isDevicesVisible = false;
+        }
+    }
+
     handleFS(id) {
         let videoPlayer = document.getElementById(id);
         videoPlayer.addEventListener('fullscreenchange', (e) => {

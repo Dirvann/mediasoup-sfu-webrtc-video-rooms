@@ -51,6 +51,7 @@ function roomOpen() {
     hide(stopScreenButton);
     reveal(exitButton);
     reveal(copyButton);
+    reveal(devicesButton);
     control.className = '';
     reveal(videoMedia);
 }
@@ -93,9 +94,11 @@ function addListeners() {
     });
     rc.on(RoomClient.EVENTS.exitRoom, () => {
         hide(control);
-        reveal(login);
+        hide(devicesList);
         hide(videoMedia);
         hide(copyButton);
+        hide(devicesButton);
+        reveal(login);
     });
 }
 

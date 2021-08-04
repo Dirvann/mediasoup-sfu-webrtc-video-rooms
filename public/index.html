@@ -45,13 +45,9 @@
                 <button id="copyButton" class="hidden" onclick="rc.copyURL()">
                     <i class="far fa-copy"></i> copy URL
                 </button>
-                <br /><br />
-                <i class="fas fa-microphone"></i> Audio:
-                <select id="audioSelect" class="form-select" style="width: auto"></select>
-                <br />
-                <i class="fas fa-video"></i> Video:
-                <select id="videoSelect" class="form-select" style="width: auto"></select>
-                <br />
+                <button id="devicesButton" class="hidden" onclick="rc.showDevices()">
+                    <i class="fas fa-cogs"></i> Devices
+                </button>
                 <button
                     id="startAudioButton"
                     class="hidden"
@@ -78,7 +74,14 @@
                 <button id="stopScreenButton" class="hidden" onclick="rc.closeProducer(RoomClient.mediaType.screen)">
                     <i class="fas fa-desktop"></i> Close screen
                 </button>
-                <br />
+                <br /><br />
+                <div id="devicesList" class="hidden">
+                    <i class="fas fa-microphone"></i> Audio:
+                    <select id="audioSelect" class="form-select" style="width: auto"></select>
+                    <br />
+                    <i class="fas fa-video"></i> Video:
+                    <select id="videoSelect" class="form-select" style="width: auto"></select>
+                </div>
                 <br />
             </div>
         </div>
