@@ -11,8 +11,9 @@ body {
 
 .containers {
     display: grid;
-    grid-gap: 5px;
     grid-template-columns: repeat(2, 1fr);
+    column-gap: 10px;
+    row-gap: 10px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -24,8 +25,7 @@ body {
 .vid {
     flex: 0 1 auto;
     height: 360px;
-    margin-right: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
 }
 
