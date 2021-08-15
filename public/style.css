@@ -1,34 +1,34 @@
 * {
-    font-family: Verdana;
+  font-family: Verdana;
 }
 
 body {
-    background-image: url('bg.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+  background-image: url('bg.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .containers {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 10px;
-    row-gap: 10px;
-    border-radius: 5px;
-    cursor: pointer;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 10px;
+  row-gap: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .container {
-    display: flex;
+  display: flex;
 }
 
 .vid {
-    flex: 0 1 auto;
-    height: 360px;
-    border-radius: 10px;
-    cursor: pointer;
+  flex: 0 1 auto;
+  height: 360px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
