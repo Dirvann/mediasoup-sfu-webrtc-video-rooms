@@ -8,7 +8,9 @@
     "start": "node src/app.js",
     "mon": "nodemon src/app.js",
     "watch": "watchify public/index.js -o public/bundle.js -v",
-    "lint": "npx prettier --write ."
+    "lint": "npx prettier --write .",
+    "docker-compile": "docker build --tag dirvann/mediasoup-video-rooms .",
+    "docker-run": "docker run --name dirvann-mediasoup-rooms -p 10000-10100:10000-10100 -p 3016:3016 dirvann/mediasoup-video-rooms"
   },
   "author": "",
   "license": "ISC",
