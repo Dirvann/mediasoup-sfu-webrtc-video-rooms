@@ -110,7 +110,7 @@ io.on('connection', (socket) => {
   socket.on('getProducers', () => {
     if (!roomList.has(socket.room_id)) return
     console.log('Get producers', { name: `${roomList.get(socket.room_id).getPeers().get(socket.id).name}` })
-    
+
     // send all the current producer to newly joined member
     let producerList = roomList.get(socket.room_id).getProducerListForPeer()
 
