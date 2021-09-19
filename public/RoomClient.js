@@ -521,6 +521,11 @@ class RoomClient {
     }
   }
 
+  closeThenProduce(type, deviceId) {
+    this.closeProducer(type)
+    this.produce(type, deviceId)
+  }
+
   pauseProducer(type) {
     if (!this.producerLabel.has(type)) {
       console.log('There is no producer for this type ' + type)

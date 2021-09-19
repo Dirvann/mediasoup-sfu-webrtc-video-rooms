@@ -4,6 +4,8 @@ const socket = io()
 
 let producer = null
 
+let isEnumerateDevices = false
+
 nameInput.value = 'user_' + Math.round(Math.random() * 1000)
 
 socket.request = function request(type, data = {}) {
@@ -92,8 +94,6 @@ function addListeners() {
     reveal(login)
   })
 }
-
-let isEnumerateDevices = false
 
 function initEnumerateDevices() {
   // Many browsers, without the consent of getUserMedia, cannot enumerate the devices.
