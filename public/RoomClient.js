@@ -621,9 +621,9 @@ class RoomClient {
     document.body.appendChild(tmpInput)
     tmpInput.value = window.location.href
     tmpInput.select()
-    tmpInput.setSelectionRange(0, 99999); // For mobile devices
-    navigator.clipboard.writeText(tmpInput.value);
-    document.body.removeChild(tmpInput);
+    tmpInput.setSelectionRange(0, 99999) // For mobile devices
+    navigator.clipboard.writeText(tmpInput.value)
+    document.body.removeChild(tmpInput)
     alert('ROOM URL copied to clipboard 👍')
   }
 
