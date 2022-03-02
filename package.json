@@ -18,10 +18,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "httpolyglot": "^0.1.2",
-    "mediasoup": "^3.9.3",
-    "mediasoup-client": "^3.6.47",
+    "mediasoup": "^3.9.8",
+    "mediasoup-client": "^3.6.50",
     "socket.io": "^4.4.1"
   },
   "devDependencies": {

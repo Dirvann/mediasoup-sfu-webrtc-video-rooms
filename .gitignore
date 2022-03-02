@@ -75,6 +75,9 @@ typings/
 .env
 .env.test
 
+# mac
+.DS_Store
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
