@@ -86,6 +86,8 @@ class RoomClient {
           this.device = device
           await this.initTransports(device)
           this.socket.emit('getProducers')
+          startVideoButton.click()
+          startAudioButton.click()
         }.bind(this)
       )
       .catch((err) => {
