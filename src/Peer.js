@@ -57,10 +57,10 @@ module.exports = class Peer {
 
     if (consumer.type === 'simulcast') {
       await consumer.setPreferredLayers({
-        spatialLayer: 2,
-        temporalLayer: 2
+        spatialLayer: 3,
+        temporalLayer: 3
       })
-    }
+    } //https://www.w3.org/TR/webrtc-svc/
 
     this.consumers.set(consumer.id, consumer)
 

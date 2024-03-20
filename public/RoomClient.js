@@ -86,6 +86,8 @@ class RoomClient {
           this.device = device
           await this.initTransports(device)
           this.socket.emit('getProducers')
+          startVideoButton.click()
+          startAudioButton.click()
         }.bind(this)
       )
       .catch((err) => {
@@ -290,9 +292,6 @@ class RoomClient {
               ideal: 1080
             },
             deviceId: deviceId
-            /*aspectRatio: {
-                            ideal: 1.7777777778
-                        }*/
           }
         }
         break
@@ -328,18 +327,17 @@ class RoomClient {
           {
             rid: 'r0',
             maxBitrate: 100000,
-            //scaleResolutionDownBy: 10.0,
-            scalabilityMode: 'S1T3'
+            scalabilityMode: 'L3T3'
           },
           {
             rid: 'r1',
             maxBitrate: 300000,
-            scalabilityMode: 'S1T3'
+            scalabilityMode: 'L3T3'
           },
           {
             rid: 'r2',
             maxBitrate: 900000,
-            scalabilityMode: 'S1T3'
+            scalabilityMode: 'L3T3'
           }
         ]
         params.codecOptions = {
@@ -521,6 +519,11 @@ class RoomClient {
     }
   }
 
+  closeThenProduce(type, deviceId) {
+    this.closeProducer(type)
+    this.produce(type, deviceId)
+  }
+
   pauseProducer(type) {
     if (!this.producerLabel.has(type)) {
       console.log('There is no producer for this type ' + type)
@@ -616,9 +619,10 @@ class RoomClient {
     document.body.appendChild(tmpInput)
     tmpInput.value = window.location.href
     tmpInput.select()
-    document.execCommand('copy')
+    tmpInput.setSelectionRange(0, 99999) // For mobile devices
+    navigator.clipboard.writeText(tmpInput.value)
     document.body.removeChild(tmpInput)
-    console.log('URL copied to clipboard 👍')
+    alert('ROOM URL copied to clipboard 👍')
   }
 
   showDevices() {

@@ -4,6 +4,7 @@ const app = express()
 const https = require('httpolyglot')
 const fs = require('fs')
 const mediasoup = require('mediasoup')
+const mediasoupClient = require('mediasoup-client')
 const config = require('./config')
 const path = require('path')
 const Room = require('./Room')
@@ -20,7 +21,12 @@ const io = require('socket.io')(httpsServer)
 app.use(express.static(path.join(__dirname, '..', 'public')))
 
 httpsServer.listen(config.listenPort, () => {
-  console.log('Listening on https://' + config.listenIp + ':' + config.listenPort)
+  console.log('Server', { 
+    listening: 'https://' + 'localhost' + ':' + config.listenPort,
+    mediasoup_server: mediasoup.version,
+    mediasoup_client: mediasoupClient.version,
+    node_version: process.versions.node,
+  })
 })
 
 // all mediasoup workers
@@ -167,7 +173,7 @@ io.on('connection', (socket) => {
     console.log('Produce', {
       type: `${kind}`,
       name: `${roomList.get(socket.room_id).getPeers().get(socket.id).name}`,
-      id: `${producer_id}`
+      producer_id: `${producer_id}`
     })
 
     callback({
@@ -236,21 +242,6 @@ io.on('connection', (socket) => {
     callback('successfully exited room')
   })
 })
-
-// TODO remove - never used?
-function room() {
-  return Object.values(roomList).map((r) => {
-    return {
-      router: r.router.id,
-      peers: Object.values(r.peers).map((p) => {
-        return {
-          name: p.name
-        }
-      }),
-      id: r.id
-    }
-  })
-}
 
 /**
  * Get next mediasoup Worker.
